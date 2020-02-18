@@ -1,10 +1,14 @@
 function [t, y] = mieulermod(f,intv,y0,N)
     t0 = intv(1);
     h = (intv(2)-t0)/N;
-    t = [t0:h:intv(2)];
-    y(1,:) = y0;
+    t = t0;
+    s = t;
+    y = y0;
+    w = y;
     for k = 1:N;
-        y(k+1,:) = y(k,:) + h*f(t(k)+h/2, y(k,:)+h/2*f(t(k),y(k,:))')';
-        f(t(k), y(k,:)).';
+        s = s + h;
+        w = w + h*f(s+h/2,w + h/2*f(s,w));
+        t = [t s];
+        y = [y w];
     endfor
 endfunction
