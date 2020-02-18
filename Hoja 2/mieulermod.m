@@ -10,5 +10,5 @@ function [t, y] = mieulermod(f,intv,y0,N)
         w = w + h*f(s+h/2,w + h/2*f(s,w));
         t = [t s];
         y = [y w];
-    endfor
-endfunction
+    end
+end

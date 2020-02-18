@@ -1,14 +1,12 @@
 disp('Este es el código de Adrian (Hoja 3)')
 
-global f intv y0 y maxnorm;
+global f intv y0 y;
+
 % Definición del problema
 f = @(t, y) [-2 1; 1 -2]*y + [2*sin(t); 2*(cos(t)-sin(t))];
 intv = [0 10];
 y0 = [2; 3];
-y = @(t) 2*e.^(-t).*[1; 1]+[sin(t); cos(t)]; % Solución exacta
-
-% Máximo de las normas euclídeas
-maxnorm = @(x,y) max(sqrt(sum((x-y).^2)));
+y = @(t) 2*exp(-t).*[1; 1]+[sin(t); cos(t)]; % Solución exacta
 
 % Diagrama 1: Max error vs h
 hvect = 0.1./(2.^(0:7));
@@ -25,9 +23,14 @@ disp("rk4...")
 errorsh_mirk4 = errors(@mirk4,nvect_h);
 
 figure(1)
+%subplot(1,3,1)
 grid on
 hold on
-loglog(hvect,errorsh_euler,hvect,errorsh_eulermej,hvect,errorsh_eulermod,hvect,errorsh_mirk4)
+
+loglog(hvect,errorsh_euler)
+loglog(hvect,errorsh_eulermej)
+loglog(hvect,errorsh_eulermod)
+loglog(hvect,errorsh_mirk4)
 legend("euler","eulermej","eulermod","rk4")
 title("Error máximo vs h")
 xlabel("h")
@@ -47,10 +50,14 @@ errorsn_eulermod = errors(@mieulermod,nvect);
 disp("rk4...")
 errorsn_mirk4 = errors(@mirk4,nvect);
 
+%subplot(1,3,2)
 figure(2)
 grid on
 hold on
-loglog(nvect,errorsn_euler,nvect,errorsn_eulermej,nvect,errorsn_eulermod,nvect,errorsn_mirk4)
+loglog(nvect,errorsn_euler)
+loglog(nvect,errorsn_eulermej)
+loglog(nvect,errorsn_eulermod)
+loglog(nvect,errorsn_mirk4)
 legend("euler","eulermej","eulermod","rk4")
 title("Error máximo vs N")
 xlabel("N")
@@ -65,9 +72,13 @@ ev_eulermod = nvect_h.*2;
 ev_rk4 = nvect_h.*4;
 
 figure(3)
+%subplot(1,3,3)
 grid on
 hold on
-loglog(ev_euler,errorsh_euler,ev_eulermej,errorsh_eulermej,ev_eulermod,errorsh_eulermod,ev_rk4,errorsh_mirk4)
+loglog(ev_euler,errorsh_euler)
+loglog(ev_eulermej,errorsh_eulermej)
+loglog(ev_eulermod,errorsh_eulermod)
+loglog(ev_rk4,errorsh_mirk4)
 legend("euler","eulermej","eulermod","rk4")
 title("Error máximo vs Ev")
 xlabel("Número de evaluaciones")

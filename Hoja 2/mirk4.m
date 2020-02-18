@@ -14,5 +14,5 @@ function [t, y] = mirk4(f,intv,y0,N)
         w = w + h/6*(F1+2*F2+2*F3+F4);
         t = [t s];
         y = [y w];
-    endfor
-endfunction
+    end
+end

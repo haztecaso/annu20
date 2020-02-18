@@ -1,11 +1,8 @@
-#! /usr/bin/octave -qf
-%graphics_toolkit("gnuplot")
-
-disp('Este es el codigo de Adrian')
+disp('Este es el codigo de Adrian (Hoja 2)')
 f = @(t, y) [y(2); -16*y(1)+4*sin(2*t)];
 intv=[0 2*pi];
 y0=[0;2];
-[t, y] = mieuler(f, intv, y0, 100);
+[~, y] = mieuler(f, intv, y0, 100);
 set(gca,'FontSize',16);
 figure(1);
 plot(y(1,:), y(2, :));
@@ -14,7 +11,7 @@ title(s)
 grid on
 hold on
 
-[t,y] = mieulermej(f, intv, y0, 100);
+[~,y] = mieulermej(f, intv, y0, 100);
 set(gca,'FontSize',16);
 figure(2);
 plot(y(1,:), y(2, :));
@@ -23,7 +20,7 @@ title(s)
 grid on
 hold on
 
-[t,y] = mieulermod(f, intv, y0, 100);
+[~,y] = mieulermod(f, intv, y0, 100);
 set(gca,'FontSize',16);
 figure(3);
 plot(y(1,:), y(2, :));
