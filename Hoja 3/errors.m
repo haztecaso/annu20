@@ -1,12 +1,9 @@
 function err = errors(met,nvect)
-global f;
-global intv;
-global y0;
-global y;
-global maxnorm;
+global f intv y0 y maxnorm;
 
 err=[];
-for n = nvect;
+for i = 1:length(nvect);
+    n = nvect(i);
     [t,ye] = met(f,intv,y0,n);
     err = [err maxnorm(y(t),ye)];
 endfor

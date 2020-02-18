@@ -1,14 +1,14 @@
-#! /usr/bin/octave -qf
 disp('Este es el código de Adrian (Hoja 3)')
 
+global f intv y0 y maxnorm;
 % Definición del problema
-global f = @(t, y) [-2 1; 1 -2]*y + [2*sin(t); 2*(cos(t)-sin(t))];
-global intv = [0 10];
-global y0 = [2; 3];
-global y = @(t) 2*e.^(-t).*[1; 1]+[sin(t); cos(t)]; % Solución exacta
+f = @(t, y) [-2 1; 1 -2]*y + [2*sin(t); 2*(cos(t)-sin(t))];
+intv = [0 10];
+y0 = [2; 3];
+y = @(t) 2*e.^(-t).*[1; 1]+[sin(t); cos(t)]; % Solución exacta
 
 % Máximo de las normas euclídeas
-global maxnorm = @(x,y) max(sqrt(sum((x-y).^2)));
+maxnorm = @(x,y) max(sqrt(sum((x-y).^2)));
 
 % Diagrama 1: Max error vs h
 hvect = 0.1./(2.^(0:7));
@@ -33,6 +33,7 @@ title("Error máximo vs h")
 xlabel("h")
 ylabel("max error")
 
+
 % Diagrama 2: Max error vs h
 nvect = 100.*2.^(0:7);
 
@@ -49,11 +50,12 @@ errorsn_mirk4 = errors(@mirk4,nvect);
 figure(2)
 grid on
 hold on
-loglog(hvect,errorsn_euler,hvect,errorsn_eulermej,hvect,errorsn_eulermod,hvect,errorsn_mirk4)
+loglog(nvect,errorsn_euler,nvect,errorsn_eulermej,nvect,errorsn_eulermod,nvect,errorsn_mirk4)
 legend("euler","eulermej","eulermod","rk4")
 title("Error máximo vs N")
 xlabel("N")
 ylabel("max error")
+
 
 % Diagrama 3: Max error vs Ev
 disp("Calculando diagrama 3")
