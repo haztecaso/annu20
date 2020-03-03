@@ -1,7 +1,6 @@
 disp('Este es el código de Adrian (Hoja 3)')
 %Variables globales para no tener que pasarlas como parámetro a la función errors.
 global f intv y0 y;
-
 % Definición del problema
 f = @(t, y) [-2 1; 1 -2]*y + [2*sin(t); 2*(cos(t)-sin(t))];
 intv = [0 10];
@@ -24,7 +23,6 @@ errors_rk4 = errors(@mirk4,nvect);
 
 % Diagrama 1: Max error vs h
 figure
-subplot(1,3,1)
 grid on
 hold on
 loglog( hvect, errors_euler, ...
@@ -37,7 +35,7 @@ xlabel("h")
 ylabel("max error")
 
 % Diagrama 2: Max error vs h
-subplot(1,3,2)
+figure
 grid on
 hold on
 loglog( nvect, errors_euler, ...
@@ -51,17 +49,13 @@ ylabel("max error")
 
 % Diagrama 3: Max error vs Ev
 disp("Calculando diagrama 3")
-ev_euler = nvect;
-ev_eulermej = nvect*3;
-ev_eulermod = nvect*2;
-ev_rk4 = nvect*4;
-subplot(1,3,3)
+figure
 grid on
 hold on
-loglog( ev_euler,errors_euler, ...
-        ev_eulermej,errors_eulermej, ...
-        ev_eulermod,errors_eulermod, ...
-        ev_rk4,errors_rk4)
+loglog( nvect,errors_euler, ...
+        nvect*2,errors_eulermej, ...
+        nvect*2,errors_eulermod, ...
+        nvect*4,errors_rk4)
 legend("euler","eulermej","eulermod","rk4")
 title("Error máximo vs Ev")
 xlabel("Número de evaluaciones")

@@ -6,8 +6,9 @@ function [t, y] = mieulermej(f,intv,y0,N)
     y = y0;
     w = y;
     for k = 1:N
+        tmp = f(s,w);
+        w = w + h/2*(tmp + f(s+h,w + h*tmp));
         s = s + h;
-        w = w + h/2*(f(s,w) + f(s,w + h*f(s,w)));
         t = [t s];
         y = [y w];
     end
