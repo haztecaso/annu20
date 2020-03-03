@@ -1,5 +1,5 @@
 disp('Este es el código de Adrian (Hoja 3)')
-
+%Variables globales para no tener que pasarlas como parámetro a la función errors.
 global f intv y0 y;
 
 % Definición del problema
@@ -8,77 +8,60 @@ intv = [0 10];
 y0 = [2; 3];
 y = @(t) 2*exp(-t).*[1; 1]+[sin(t); cos(t)]; % Solución exacta
 
-% Diagrama 1: Max error vs h
-hvect = 0.1./(2.^(0:7));
-nvect_h = ceil((intv(2)-intv(1))./hvect);
+nvect = 100.*2.^(0:7);
+hvect = (intv(2)-intv(1))./nvect;
 
-disp("Calculando diagrama 1:")
+% Cuentas
+disp("Calculando errores:")
 disp("euler...")
-errorsh_euler = errors(@mieuler,nvect_h);
+errors_euler = errors(@mieuler,nvect);
 disp("eulermej...")
-errorsh_eulermej = errors(@mieulermej,nvect_h);
+errors_eulermej = errors(@mieulermej,nvect);
 disp("eulermod...")
-errorsh_eulermod = errors(@mieulermod,nvect_h);
+errors_eulermod = errors(@mieulermod,nvect);
 disp("rk4...")
-errorsh_mirk4 = errors(@mirk4,nvect_h);
+errors_rk4 = errors(@mirk4,nvect);
 
-figure(1)
-%subplot(1,3,1)
+% Diagrama 1: Max error vs h
+figure
+subplot(1,3,1)
 grid on
 hold on
-
-loglog(hvect,errorsh_euler)
-loglog(hvect,errorsh_eulermej)
-loglog(hvect,errorsh_eulermod)
-loglog(hvect,errorsh_mirk4)
+loglog( hvect, errors_euler, ...
+        hvect, errors_eulermej, ...
+        hvect, errors_eulermod, ...
+        hvect, errors_rk4)
 legend("euler","eulermej","eulermod","rk4")
 title("Error máximo vs h")
 xlabel("h")
 ylabel("max error")
 
-
 % Diagrama 2: Max error vs h
-nvect = 100.*2.^(0:7);
-
-disp("Calculando diagrama 2:")
-disp("euler...")
-errorsn_euler = errors(@mieuler,nvect);
-disp("eulermej...")
-errorsn_eulermej = errors(@mieulermej,nvect);
-disp("eulermod...")
-errorsn_eulermod = errors(@mieulermod,nvect);
-disp("rk4...")
-errorsn_mirk4 = errors(@mirk4,nvect);
-
-%subplot(1,3,2)
-figure(2)
+subplot(1,3,2)
 grid on
 hold on
-loglog(nvect,errorsn_euler)
-loglog(nvect,errorsn_eulermej)
-loglog(nvect,errorsn_eulermod)
-loglog(nvect,errorsn_mirk4)
+loglog( nvect, errors_euler, ...
+        nvect, errors_eulermej, ...
+        nvect, errors_eulermod, ...
+        nvect, errors_rk4)
 legend("euler","eulermej","eulermod","rk4")
 title("Error máximo vs N")
 xlabel("N")
 ylabel("max error")
 
-
 % Diagrama 3: Max error vs Ev
 disp("Calculando diagrama 3")
-ev_euler = nvect_h;
-ev_eulermej = nvect_h.*3;
-ev_eulermod = nvect_h.*2;
-ev_rk4 = nvect_h.*4;
-
-figure(3)
-%subplot(1,3,3)
+ev_euler = nvect;
+ev_eulermej = nvect*3;
+ev_eulermod = nvect*2;
+ev_rk4 = nvect*4;
+subplot(1,3,3)
 grid on
 hold on
-loglog(ev_euler,errorsh_euler)
-loglog(ev_eulermej,errorsh_eulermej)
-loglog(ev_eulermod,errorsh_eulermod)
-loglog(ev_rk4,errorsh_mirk4)
+loglog( ev_euler,errors_euler, ...
+        ev_eulermej,errors_eulermej, ...
+        ev_eulermod,errors_eulermod, ...
+        ev_rk4,errors_rk4)
 legend("euler","eulermej","eulermod","rk4")
 title("Error máximo vs Ev")
 xlabel("Número de evaluaciones")
