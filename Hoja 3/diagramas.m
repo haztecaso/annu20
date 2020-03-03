@@ -1,4 +1,5 @@
 disp('Este es el código de Adrian (Hoja 3)')
+format long
 %Variables globales para no tener que pasarlas como parámetro a la función errors.
 global f intv y0 y;
 % Definición del problema
