@@ -1,4 +1,5 @@
 disp('Este es el código de Adrian (Hoja 3)')
+format long
 %Variables globales para no tener que pasarlas como parámetro a la función errors.
 global f intv y0 y;
 % Definición del problema
@@ -11,51 +12,60 @@ nvect = 100.*2.^(0:7);
 hvect = (intv(2)-intv(1))./nvect;
 
 % Cuentas
-fprintf('%s ', "Calculando errores:");
-fprintf('%s', "euler");
+disp("Calculando errores:")
+disp("euler...")
 errors_euler = errors(@mieuler,nvect);
-fprintf(', %s', "eulermej");
+disp("eulermej...")
 errors_eulermej = errors(@mieulermej,nvect);
-fprintf(', %s', "eulermod");
+disp("eulermod...")
 errors_eulermod = errors(@mieulermod,nvect);
-fprintf(', %s', "rk4");
+disp("rk4...")
 errors_rk4 = errors(@mirk4,nvect);
-disp('.');
 
 % Diagrama 1: Max error vs h
 figure
+grid on
+hold on
 loglog( hvect, errors_euler, ...
         hvect, errors_eulermej, ...
         hvect, errors_eulermod, ...
         hvect, errors_rk4)
-grid on
 legend("euler","eulermej","eulermod","rk4")
-title("Error vs h"); xlabel("h"); ylabel("Error");
+title("Error máximo vs h")
+xlabel("h")
+ylabel("max error")
 
-% Diagrama 2: Max error vs N
+% Diagrama 2: Max error vs h
 figure
+grid on
+hold on
 loglog( nvect, errors_euler, ...
         nvect, errors_eulermej, ...
         nvect, errors_eulermod, ...
         nvect, errors_rk4)
-grid on
 legend("euler","eulermej","eulermod","rk4")
-title("Error vs N"); xlabel("N"); ylabel("Error")
+title("Error máximo vs N")
+xlabel("N")
+ylabel("max error")
 
 % Diagrama 3: Max error vs Ev
+disp("Calculando diagrama 3")
 figure
+grid on
+hold on
 loglog( nvect,errors_euler, ...
         nvect*2,errors_eulermej, ...
         nvect*2,errors_eulermod, ...
         nvect*4,errors_rk4)
-grid on
 legend("euler","eulermej","eulermod","rk4")
-title("Error vs NEv"); xlabel("Número de evaluaciones"); ylabel("Error")
+title("Error máximo vs Ev")
+xlabel("Número de evaluaciones")
+ylabel("max error")
 
 % Pendientes
-disp("Pendientes del primer gráfico")
-pendiente = @(a,b) [(log(a(7))-log(a(1)))/(log(b(7))-log(b(1)))];
-pendiente_euler    = pendiente(errors_euler, hvect)
-pendiente_eulermej = pendiente(errors_eulermej, hvect)
-pendiente_eulermod = pendiente(errors_eulermod, hvect)
-pendiente_rk4      = pendiente(errors_rk4, hvect)
+
+disp("Pendientes del segundo gráfico")
+pendiente_euler = (log(errors_euler(6))-log(errors_euler(i,1)))/(log(nvect(6))-log(nvect(1)));
+pendiente_eulermej = (log(errors_eulermej(6))-log(errors_eulermej(i,1)))/(log(nvect(6))-log(nvect(1)));
+pendiente_eulermod= (log(errors_eulermod(6))-log(errors_eulermod(i,1)))/(log(nvect(6))-log(nvect(1)));
+pendiente_rk4 = (log(errors_rk4(6))-log(errors_rk4(i,1)))/(log(nvect(6))-log(nvect(1)));
