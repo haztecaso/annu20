@@ -1,4 +1,4 @@
-disp('Este es el código de Adrian (Hoja 3)')
+disp('Este es el código de Adrián (Hoja 3)')
 %Variables globales para no tener que pasarlas como parámetro a la función errors.
 global f intv y0 y;
 % Definición del problema
@@ -23,31 +23,34 @@ errors_rk4 = errors(@mirk4,nvect);
 disp('.');
 
 % Diagrama 1: Max error vs h
-figure
+figure(1)
 loglog( hvect, errors_euler, ...
         hvect, errors_eulermej, ...
         hvect, errors_eulermod, ...
         hvect, errors_rk4)
+hold on
 grid on
 legend("euler","eulermej","eulermod","rk4")
 title("Error vs h"); xlabel("h"); ylabel("Error");
 
 % Diagrama 2: Max error vs N
-figure
+figure(2)
 loglog( nvect, errors_euler, ...
         nvect, errors_eulermej, ...
         nvect, errors_eulermod, ...
         nvect, errors_rk4)
+hold on
 grid on
 legend("euler","eulermej","eulermod","rk4")
 title("Error vs N"); xlabel("N"); ylabel("Error")
 
 % Diagrama 3: Max error vs Ev
-figure
+figure(3)
 loglog( nvect,errors_euler, ...
         nvect*2,errors_eulermej, ...
         nvect*2,errors_eulermod, ...
         nvect*4,errors_rk4)
+hold on
 grid on
 legend("euler","eulermej","eulermod","rk4")
 title("Error vs NEv"); xlabel("Número de evaluaciones"); ylabel("Error")
