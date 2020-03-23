@@ -1,7 +1,0 @@
-Bucles sin indices
-
-t=int(1)
-for k=1:n
-    t = t+k
-    s = [s,t]
-end
