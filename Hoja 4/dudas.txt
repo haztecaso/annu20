@@ -1,0 +1,3 @@
+
+- Cuando implementamos el predictor, que parametros tenemos que pasarle al metodo de euler?
+    Queremos aproximar solo un punto...
