@@ -1,77 +1,125 @@
+clear all
+format long
 disp('Este es el código de Adrián (Hoja 4)')
-format long;
 nvect = 100.*2.^(0:7);
-tol = 0.00001;
-nmax = 60;
+tol = 10^(-5);
+nmax = 1000;
+disp(sprintf('tol = %g\tnmax = %g\n',tol,nmax));
 
-% Ecuación no rígida
+
+disp("Diagramas para una ecuación no rígida")
+disp("--------------------------------------------------------------------------\n")
 f = @(t, y) [-2 1; 1 -2]*y + [2*sin(t); 2*(cos(t)-sin(t))];
-jfunc = @(t,y) [-100 1; 1 -2];
+jfunc = @(t,y) [-2 1; 1 -2];
 intv = [0 20];
 y0 = [2; 3];
 y = @(t) 2*exp(-t).*[1; 1]+[sin(t); cos(t)]; % Solución exacta
 
-% Euler implícito - diagramas de eficiencia
-N = 300;
-%[t, yimpfix]   = mieulerimpfix   (f, intv, y0, N, tol, nmax);
-%[t, yimpfixpc] = mieulerimpfixpc (f, intv, y0, N, tol, nmax)
-[t, yimpnwt]   = mieulerimpnwt   (f, jfunc, intv, y0, N, tol, nmax);
-%[t, yimpnwtpc] = mieulerimpnwtpc (f, jfunc, intv, y0, N, tol, nmax)
-%plot(t,yimpfix)
-
-figure(1)
-plot(t,y(t))
-figure(2)
-plot(t,yimpnwt)
-return
-
-disp("Calculando errores del método de euler implícito")
+if 0
+disp("Calculando errores para las implementaciones del método de euler implícito")
+disp("--------------------------------------------------------------------------")
 for i = 1:length(nvect)
-    [t, y_aprox] = mieulerimpfix(f,intv,y0,nvect(i),tol,nmax);
+    [t, y_aprox] = mieulerimpfix  (f,intv,y0,nvect(i),tol,nmax);
     err_impfix(i) = max(max(abs(y(t) - y_aprox)));
-
     [t, y_aprox] = mieulerimpfixpc(f,intv,y0,nvect(i),tol,nmax);
     err_impfixpc(i) = max(max(abs(y(t) - y_aprox)));
-
-    [t, y_aprox] = mieulerimpnwt(f,jfunc,intv,y0,nvect(i),tol,nmax);
+	[t, y_aprox] = mieulerimpnwt(f,jfunc,intv,y0,nvect(i),tol,nmax);
     err_impnwt(i) = max(max(abs(y(t) - y_aprox)));
-
-    %[t, y_aprox] = mieulerimpnwtpc(f,intv,y0,nvect(i),tol,nmax);
-    %err_impnwtpc(i) = max(max(abs(y(t) - y_aprox)));
+    [t, y_aprox] = mieulerimpnwtpc(f,jfunc,intv,y0,nvect(i),tol,nmax);
+    err_impnwtpc(i) = max(max(abs(y(t) - y_aprox)));
+	disp(" ")
 end
 
+figure(1)
 loglog(nvect, err_impfix)
 hold on
 loglog(nvect, err_impfixpc)
 loglog(nvect, err_impnwt)
-%loglog(nvect, err_impnwtpc)
+loglog(nvect, err_impnwtpc)
 grid on
-legend("eulerimpfix","eulerimpfixpc")
-%legend("eulerimpfix","eulerimpfixpc","eulerimpnwt","eulerimpnwtpc")
-title("Error vs N"); xlabel("N"); ylabel("Error")
+legend("eulerimpfix","eulerimpfixpc","eulerimpnwt","eulerimpnwtpc")
+title("Ecuación no rígida. Diagrama de eficiencia para euler implícito (4 implementaciones)."); xlabel("N"); ylabel("Error")
 
+disp("Calculando errores para las implementaciones del método del trapecio")
+disp("--------------------------------------------------------------------------")
+for i = 1:length(nvect)
+    [t, y_aprox] = mitrapfix  (f,intv,y0,nvect(i),tol,nmax);
+    err_impfix(i) = max(max(abs(y(t) - y_aprox)));
+    [t, y_aprox] = mitrapfixpc(f,intv,y0,nvect(i),tol,nmax);
+    err_impfixpc(i) = max(max(abs(y(t) - y_aprox)));
+	[t, y_aprox] = mitrapnwt(f,jfunc,intv,y0,nvect(i),tol,nmax);
+    err_impnwt(i) = max(max(abs(y(t) - y_aprox)));
+    [t, y_aprox] = mitrapnwtpc(f,jfunc,intv,y0,nvect(i),tol,nmax);
+    err_impnwtpc(i) = max(max(abs(y(t) - y_aprox)));
+	disp(" ")
+end
 
-
-return
-
-% Cuentas
-disp("Calculando errores:")
-disp("euler...")
-%errors_eulerimpfix = errors(@mieulerimpfix,nvect);
-disp("rk4...")
-%errors_rk4 = errors(@mirk4,nvect);
-
-% Diagrama de eficiencia
-figure(1)
-loglog( nvect, errors_eulerimpfix, ...
-        nvect, errors_rk4)
+figure(2)
+loglog(nvect, err_impfix)
 hold on
+loglog(nvect, err_impfixpc)
+loglog(nvect, err_impnwt)
+loglog(nvect, err_impnwtpc)
 grid on
-legend("euler imp fix","rk4")
-title("Error máximo vs N")
-xlabel("N")
-ylabel("max error")
-return
+legend("eulerimpfix","eulerimpfixpc","eulerimpnwt","eulerimpnwtpc")
+title("Ecuación no rígida. Diagrama de eficiencia para el método del trapecio (4 implementaciones)."); xlabel("N"); ylabel("Error")
+end
+
+disp("Diagramas para una ecuación rígida")
+disp("--------------------------------------------------------------------------\n")
+f = @(t, y) [-2 1; 998 -999]*y + [2*sin(t); 999*(cos(t)-sin(t))];
+jfunc = @(t,y) [-2 1; 998 -999];
+intv = [0 20];
+y0 = [2; 3];
+y = @(t) 2*exp(-t).*[1; 1]+[sin(t); cos(t)]; % Solución exacta
+
+disp("Calculando errores para las implementaciones del método de euler implícito")
+disp("--------------------------------------------------------------------------")
+for i = 1:length(nvect)
+    [t, y_aprox] = mieulerimpfix  (f,intv,y0,nvect(i),tol,nmax);
+    err_impfix(i) = max(max(abs(y(t) - y_aprox)));
+    [t, y_aprox] = mieulerimpfixpc(f,intv,y0,nvect(i),tol,nmax);
+    err_impfixpc(i) = max(max(abs(y(t) - y_aprox)));
+	[t, y_aprox] = mieulerimpnwt(f,jfunc,intv,y0,nvect(i),tol,nmax);
+    err_impnwt(i) = max(max(abs(y(t) - y_aprox)));
+    [t, y_aprox] = mieulerimpnwtpc(f,jfunc,intv,y0,nvect(i),tol,nmax);
+    err_impnwtpc(i) = max(max(abs(y(t) - y_aprox)));
+	disp(" ")
+end
+
+figure(3)
+loglog(nvect, err_impfix)
+hold on
+loglog(nvect, err_impfixpc)
+loglog(nvect, err_impnwt)
+loglog(nvect, err_impnwtpc)
+grid on
+legend("eulerimpfix","eulerimpfixpc","eulerimpnwt","eulerimpnwtpc")
+title("Ecuación rígida. Diagrama de eficiencia para euler implícito (4 implementaciones)."); xlabel("N"); ylabel("Error")
+
+disp("Calculando errores para las implementaciones del método del trapecio")
+disp("--------------------------------------------------------------------------")
+for i = 1:length(nvect)
+    [t, y_aprox] = mitrapfix  (f,intv,y0,nvect(i),tol,nmax);
+    err_impfix(i) = max(max(abs(y(t) - y_aprox)));
+    [t, y_aprox] = mitrapfixpc(f,intv,y0,nvect(i),tol,nmax);
+    err_impfixpc(i) = max(max(abs(y(t) - y_aprox)));
+	[t, y_aprox] = mitrapnwt(f,jfunc,intv,y0,nvect(i),tol,nmax);
+    err_impnwt(i) = max(max(abs(y(t) - y_aprox)));
+    [t, y_aprox] = mitrapnwtpc(f,jfunc,intv,y0,nvect(i),tol,nmax);
+    err_impnwtpc(i) = max(max(abs(y(t) - y_aprox)));
+	disp(" ")
+end
+
+figure(4)
+loglog(nvect, err_impfix)
+hold on
+loglog(nvect, err_impfixpc)
+loglog(nvect, err_impnwt)
+loglog(nvect, err_impnwtpc)
+grid on
+legend("eulerimpfix","eulerimpfixpc","eulerimpnwt","eulerimpnwtpc")
+title("Ecuación rígida. Diagrama de eficiencia para el método del trapecio (4 implementaciones)."); xlabel("N"); ylabel("Error")
 
 %function [teuler,yeuler,ev]          = mieulerimpfix       (f,intv,y0,N,TOL,nmax) 
 %function [teuler,yeuler,ev]          = mieulerimpfixpc     (f,intv,y0,N,TOL,nmax) 

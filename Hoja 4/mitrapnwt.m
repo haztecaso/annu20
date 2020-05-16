@@ -1,4 +1,4 @@
-function [t, y] = mieulerimpnwt(f,jfunc,intv,y0,N,TOL,nmax)
+function [t, y] = mitrapnwt(f,jfunc,intv,y0,N,TOL,nmax)
 % Iteración: Newton
 % Dato inicial: valor anterior
     t0 = intv(1);
@@ -7,14 +7,14 @@ function [t, y] = mieulerimpnwt(f,jfunc,intv,y0,N,TOL,nmax)
     y = w = y0;
     ev = 0;
     for k = 1:N
+        F = @(x) x - (w + h/2*(f(s,w)+f(s + h,x)));
         s = s + h;
-        F = @(x) x - (w + h*f(s,x));
-        JF = h*jfunc(s,w);
+        JF = h/2*jfunc(s,w);
         JF = eye(size(JF)) + JF;
         [w, n] = iternwt(F,JF,w,TOL,nmax);
         ev += n;
         t = [t s];
         y = [y w];
     end
-    disp(sprintf('mieulerimpnwt\tN=%g\t->\t%g ev',N,ev));
+    disp(sprintf('mitrapnwt\tN=%g\t->\t%g ev',N,ev));
 end

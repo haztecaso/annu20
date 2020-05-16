@@ -1,4 +1,4 @@
-function [t, y] = mieulerimpfix(f,intv,y0,N,TOL,nmax)
+function [t, y] = mitrapfix(f,intv,y0,N,TOL,nmax)
 % Iteración: punto fijo
 % Dato inicial: valor anterior
     t0 = intv(1);
@@ -7,12 +7,12 @@ function [t, y] = mieulerimpfix(f,intv,y0,N,TOL,nmax)
     y = w = y0;
     ev = 0;
     for k = 1:N
+        F = @(x) w + h/2*(f(s,w)+f(s + h,x));
         s = s + h;
-        F = @(x)  w + h * f(s,x);
         [w, n] = iterfix(F, w,TOL,nmax);
         ev += n;
         t = [t s];
         y = [y w];
     end
-    disp(sprintf('mieulerimpfix\tN=%g\t->\t%g ev',N,ev));
+    disp(sprintf('mitrapfix\tN=%g\t->\t%g ev',N,ev));
 end
