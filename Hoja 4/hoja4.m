@@ -121,6 +121,10 @@ grid on
 legend("eulerimpfix","eulerimpfixpc","eulerimpnwt","eulerimpnwtpc")
 title("Ecuación rígida. Diagrama de eficiencia para el método del trapecio (4 implementaciones)."); xlabel("N"); ylabel("Error")
 
+
+
+% Signatures
+
 %function [teuler,yeuler,ev]          = mieulerimpfix       (f,intv,y0,N,TOL,nmax) 
 %function [teuler,yeuler,ev]          = mieulerimpfixpc     (f,intv,y0,N,TOL,nmax) 
 %function [tvals, yvals,ev,loopcount] = mieulerimpnwt       (f,jfunc,intv,y0,N,TOL,nmax)
