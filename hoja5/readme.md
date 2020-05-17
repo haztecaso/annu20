@@ -1,2 +1,2 @@
 # To do y cuestiones
-- Cómo resolver una EDO con un método discreto?
+- Cómo aproximar una EDO con un método discreto?
