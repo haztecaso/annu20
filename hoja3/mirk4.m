@@ -1,1 +1,1 @@
-../Hoja 2/mirk4.m
+../hoja2/mirk4.m
