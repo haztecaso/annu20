@@ -1,4 +1,4 @@
-# Todo y cuestiones
+# To do y cuestiones
 
 - Qué valores para nmax y TOL?
 - Revisar implementación del método de Newton
