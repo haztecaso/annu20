@@ -15,7 +15,6 @@ intv = [0 20];
 y0 = [2; 3];
 y = @(t) 2*exp(-t).*[1; 1]+[sin(t); cos(t)]; % Solución exacta
 
-if 0
 disp("Calculando errores para las implementaciones del método de euler implícito")
 disp("--------------------------------------------------------------------------")
 for i = 1:length(nvect)
@@ -63,7 +62,6 @@ loglog(nvect, err_impnwtpc)
 grid on
 legend("eulerimpfix","eulerimpfixpc","eulerimpnwt","eulerimpnwtpc")
 title("Ecuación no rígida. Diagrama de eficiencia para el método del trapecio (4 implementaciones)."); xlabel("N"); ylabel("Error")
-end
 
 disp("Diagramas para una ecuación rígida")
 disp("--------------------------------------------------------------------------\n")
