@@ -7,7 +7,7 @@ x0=[0;2];
 i=1;
 figure(i)
 set(gca,'FontSize',16);
-plot(t, y(:, 1), 'go-', t, y(:, 2), 'r+-')
+plot(t, y(:, 1), t, y(:, 2) )
 s=sprintf('Ecuacion de Corazon,\n met=%s,intv=[%g %g],\n x0=[%g %g]',met,intv,x0);
 title(s)
 grid on
