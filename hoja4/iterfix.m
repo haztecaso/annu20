@@ -10,7 +10,7 @@ function [x,n] = iterfix(F,x0,tol,nmax)
         end
         x_old = x;
         x = F(x);
-        ++n;
+        n = n + 1;
 	end
 end
 

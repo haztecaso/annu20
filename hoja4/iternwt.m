@@ -11,7 +11,7 @@ function [x, n] = iternwt(F,JF,x0,tol,nmax)
         end
         x_old = x;
         x = x - JF\F(x);
-		++n;
+		n = n + 1;
 	end
 end
 

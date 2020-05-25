@@ -3,8 +3,10 @@ function [t, y] = mitrapnwt(f,jfunc,intv,y0,N,TOL,nmax)
 % Dato inicial: valor anterior
     t0 = intv(1);
     h = (intv(2)-t0)/N;
-    t = s = t0;
-    y = w = y0;
+    t = t0;
+    s = t0;
+    y = y0;
+    w = y0;
     ev = 0;
     for k = 1:N
         F = @(x) x - (w + h/2*(f(s,w)+f(s + h,x)));
@@ -12,7 +14,7 @@ function [t, y] = mitrapnwt(f,jfunc,intv,y0,N,TOL,nmax)
         JF = h/2*jfunc(s,w);
         JF = eye(size(JF)) + JF;
         [w, n] = iternwt(F,JF,w,TOL,nmax);
-        ev += n;
+        ev = ev + n;
         t = [t s];
         y = [y w];
     end

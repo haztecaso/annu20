@@ -3,14 +3,16 @@ function [t, y] = mieulerimpfix(f,intv,y0,N,TOL,nmax)
 % Dato inicial: valor anterior
     t0 = intv(1);
     h = (intv(2)-t0)/N;
-    t = s = t0;
-    y = w = y0;
+    t = t0;
+    s = t0;
+    y = y0;
+    w = y0;
     ev = 0;
     for k = 1:N
         s = s + h;
         F = @(x)  w + h * f(s,x);
-        [w, n] = iterfix(F, w,TOL,nmax);
-        ev += n;
+        [w, n] = iterfix(F,w,TOL,nmax);
+        ev = ev + n;
         t = [t s];
         y = [y w];
     end
