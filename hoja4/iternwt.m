@@ -10,7 +10,7 @@ function [x, n] = iternwt(F,JF,x0,tol,nmax)
             break
         end
         x_old = x;
-        x = x - JF\F(x);
+        x = x - JF\F(x); % UB:26.05.2020: esta bien no hay inv JF
 		n = n + 1;
 	end
 end
