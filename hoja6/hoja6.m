@@ -18,5 +18,23 @@ x = @(t) 1/(1-t); % Solución exacta
 hmax = (intv(2)-intv(1))/50;
 
 
+[t,y,ev,hchng_vec,err_vec] = mirk45fehlberg(f,intv,x0,tol,hmin,hmax,fac,facmax);
+figure(1)
+plot(t,y)
+drawnow
+
+figure(2)
+[t,y,ev,hchng_vec,err_vec] = mieuler12(f,intv,x0,tol,hmin,hmax,fac,facmax);
+plot(t,y)
+drawnow
+
+figure(3)
 [t,y,ev,hchng_vec,err_vec] = mieuler21(f,intv,x0,tol,hmin,hmax,fac,facmax);
 plot(t,y)
+drawnow
+
+figure(4)
+[t,y,ev,hchng_vec,err_vec] = midormandprice(f,intv,x0,tol,hmin,hmax,fac,facmax);
+plot(t,y)
+drawnow
+

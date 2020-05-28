@@ -1,6 +1,6 @@
-function [t,y,ev,hchng_vec,err_vec] = mirkespadap(f,intv,y0,A,b,bhat,TOL,hmin,hmax,fac,facmax)
+function [t,y,ev,hchng_vec,err_vec] = mirkespadapt(f,intv,y0,A,b,bhat,TOL,hmin,hmax,fac,facmax)
     c = sum(A');
-    s = length(b4); % Etapas
+    s = length(b); % Etapas
 
     t = intv(1);
     y = y0;
