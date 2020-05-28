@@ -20,36 +20,27 @@ function [t,y,ev,hchng_vec,err_vec] = mirk45fehlberg(f,intv,y0,TOL,hmin,hmax,fac
     hchng_vec = [];
     err_vec = [];
 
-    i = 0;
     while t < intv(2)
         k = f(t(end),y(:,end));
         for i=2:s
             suma = k(:,1:i-1)*A(i,1:i-1)'; %suma vectorizada
             k = [k, f(t(end)+c(i)*h, y(:,end)+h*suma)];
-            if i == 5;
-                k
-            end
         end
         ev = ev + s;
-        y4 = y(:,end) + h*k*b4';
-
-        if isnan(y4)
-            i
-            y4
-            return
-        end
-        y5 = y(:,end) + h*k*b5';
-        err = abs(y4-y5);
-        err_vec = [err_vec err];
-        y = [y y4];
-        t = [t, t(end)+h];
+		err = abs(h*k*(b4'-b5'));
+		if err < TOL
+            y4 = y(:,end) + h*k*b4';
+			y = [y y4];
+			t = [t, t(end)+h];
+			err_vec = [err_vec err];
+            hchng_vec = [hchng_vec h];
+	    end
         h = min(hmax, h*min(facmax,fac*(TOL*h/err)^(1/5)));
-        hchng_vec = [hchng_vec h];
         %h = mimin(hmax, h*mimin(facmax,fac*(TOL*h/err)^(1/5),"facmax","tol*h/err"),"hmax","");
         if h<hmin
-            h = hmin;
+			break
         end
-        i = i+1;
+		disp(t(end))
     end
 
 end

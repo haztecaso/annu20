@@ -7,7 +7,7 @@ disp('Este es el código de Adrián (Hoja 6)')
 
 tol = 0.01;
 fac = 0.9;
-facmax = 1.5;
+facmax = 4;
 hmin = 10^(-5);
 
 f = @(t, x) x^2;
@@ -19,3 +19,7 @@ hmax = (intv(2)-intv(1))/50;
 
 
 [t,y,ev,hchng_vec,err_vec] = mirk45fehlberg(f,intv,x0,tol,hmin,hmax,fac,facmax);
+
+plot(t,y)
+ev
+size(t)
