@@ -16,7 +16,7 @@ function [t,y,ev,hchng_vec,err_vec] = mirkespadapt(f,intv,y0,A,b,bhat,TOL,hmin,h
             k = [k, f(t(end)+c(i)*h, y(:,end)+h*suma)];
         end
         ev = ev + s;
-		err = abs(h*k*(b'-bhat'));
+        err = max(abs(h*k*(b'-bhat')));
 		if err < TOL
             y4 = y(:,end) + h*k*b';
 			y = [y y4];
